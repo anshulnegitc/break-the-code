@@ -1,0 +1,41 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[rgba(5,11,18,0.92)] backdrop-blur-[8px]">
+      <div class="w-full max-w-[700px] border border-[rgba(0,255,136,0.2)] bg-[#050B12]/80 p-8 rounded-2xl relative font-sans">
+        
+        <!-- Header -->
+        <div class="text-[10px] text-[#00FF88] tracking-[0.2em] uppercase mb-6 flex flex-wrap gap-4">
+             <span>INCOMING TRANSMISSION</span>
+             <span class="opacity-50">CHANNEL: NAVAL COMMAND</span>
+             <span class="opacity-50">PRIORITY: HIGH</span>
+             <span class="opacity-50">STATUS: VERIFIED</span>
+        </div>
+        
+        <!-- Speaker Section -->
+        <div class="flex items-center gap-3 mb-6">
+            <div class="text-[#00FF88]">📡</div>
+            <p class="text-sm font-bold uppercase tracking-widest text-[#00FF88]">{{ currentDialogue().speaker }}</p>
+        </div>
+        
+        <!-- Message -->
+        <div class="text-white text-[clamp(20px,2vw,32px)] leading-relaxed mb-10 h-[120px]">
+          {{ displayedText() }}<span class="animate-pulse text-[#00FF88]">_</span>
+        </div>
+
+        <!-- Terminal Status -->
+        <div class="text-[10px] grid grid-cols-2 gap-4 text-[#AAB4C0] uppercase font-mono mb-8 opacity-70">
+            <div>SIGNAL STRENGTH: ████████░░</div>
+            <div>ENCRYPTION LEVEL: HIGH</div>
+            <div>TRACKING STATUS: ACTIVE</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4">
+          <button (click)="briefingComplete.emit()" class="h-[52px] px-6 bg-transparent border border-[#00FF88] text-[#00FF88] font-bold uppercase tracking-widest rounded-[10px] hover:bg-[#00FF88]/10 transition-colors w-[150px] flex items-center justify-center cursor-pointer">
+              SKIP ▶
+          </button>
+          <button (click)="next()" class="h-[52px] px-6 bg-[#00FF88] text-black font-bold uppercase tracking-widest rounded-[10px] hover:scale-[1.02] transition-transform w-[200px] flex items-center justify-center cursor-pointer">
+              {{ isLastDialogue() ? 'BEGIN OPERATION ▶' : 'CONTINUE ▶' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  

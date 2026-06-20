@@ -1,0 +1,44 @@
+@if (service.currentPuzzleIndex() < service.totalMissions) {
+        @let puzzle = service.getCurrentPuzzle();
+        <div class="bg-[#0C0C0C]/90 border border-[#2A2A2A] p-2 lg:p-6 max-w-sm w-full font-sans text-white rounded-lg">
+          @if (!isLoading()) {
+            <div class="flex flex-col mb-2 lg:mb-6">
+              <h2 class="text-[8px] lg:text-xs text-[#666] uppercase tracking-widest">{{ service.getMissionName(service.currentPuzzleIndex()) }}</h2>
+              <div class="flex justify-between items-center text-[8px] lg:text-[10px] text-[#00FF88] uppercase tracking-widest mt-1 lg:mt-2">
+                  <span>INTERCEPTED MESSAGE</span>
+                  <span>{{ service.currentPuzzleIndex() }} / {{ service.totalMissions }}</span>
+              </div>
+              <div class="w-full h-1 bg-[#222] mt-1 lg:mt-2 rounded overflow-hidden">
+                  <div class="h-full bg-[#00FF88]" [style.width.%]="(service.currentPuzzleIndex() / service.totalMissions) * 100"></div>
+              </div>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-1 lg:gap-2 text-lg lg:text-2xl font-black font-mono mb-2 lg:mb-6">
+              @for (part of puzzle.question; track $index) {
+                <span class="w-7 h-7 lg:w-10 lg:h-10 flex items-center justify-center border border-[#333] bg-black/50 text-[#00FF88]">
+                  {{ part === '_' ? '?' : part }}
+                </span>
+              }
+            </div>
+            
+            <div class="flex flex-row gap-1 lg:grid lg:grid-cols-2 lg:gap-2">
+              @for (option of puzzle.options; track $index) {
+                <button (click)="selectOption(option)" 
+                        [class.border-[#00FF88]]="selectedOption() === option && isCorrect() === true"
+                        [class.bg-[#00FF88]/20]="selectedOption() === option && isCorrect() === true"
+                        class="flex-1 border border-[#333] p-1 lg:p-2 text-base lg:text-xl hover:border-[#00FF88] hover:bg-black/80 transition-colors min-h-[36px] lg:min-h-[48px] flex items-center justify-center bg-black/50 cursor-pointer active:scale-95 shadow-md">
+                  {{ option }}
+                </button>
+              }
+            </div>
+          } @else {
+            <div class="flex flex-col items-center justify-center py-4 lg:py-12">
+                <div class="text-[8px] lg:text-xs font-mono text-[#00FF88] mb-2 lg:mb-4 uppercase tracking-widest">Decryption Progress: {{ progress() }}%</div>
+                <div class="w-full h-1 lg:h-2 bg-[#1A2535] rounded-full overflow-hidden">
+                    <div class="h-full bg-[#00FF88] transition-all duration-100" [style.width.%]="progress()"></div>
+                </div>
+            </div>
+          }
+        </div>
+    }
+  

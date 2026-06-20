@@ -1,0 +1,56 @@
+    <div class="flex flex-col lg:flex-row h-full bg-[#050B12] font-sans text-white overflow-hidden desktop-adjust mobile-adjust">
+        <!-- Left Column -->
+        <div class="w-full lg:w-[30%] flex flex-col items-center border-b lg:border-b-0 lg:border-r border-[#1A2535] order-2 lg:order-1">
+            <!-- Mission Info -->
+            <div class="p-0 lg:p-4 border-b border-[#1A2535] font-mono w-full">
+                <h1 class="text-[8px] lg:text-[12px] uppercase tracking-widest text-[#64748b]">Mission 0{{ puzzleService.currentPuzzleIndex() + 1 }}</h1>
+                <div class="flex justify-between items-center mt-0 lg:mt-2">
+                    <span class="text-[12px] lg:text-[18px] font-bold text-[#F5F7FA]">{{ puzzleService.getCurrentMission().name }}</span>
+                    <span [class]="getTimerColorClass()" class="text-[16px] lg:text-[24px] font-bold tabular-nums">
+                        {{ timerService.remainingTime() }}s
+                    </span>
+                </div>
+            </div>
+            <!-- Lives -->
+            <div class="bg-[#0C0C0C]/90 border border-[#2A2A2A] p-0 lg:p-6 m-0 lg:m-4 max-w-sm w-[98%] rounded-lg">
+                <div class="text-[6px] lg:text-[10px] text-[#666] uppercase tracking-widest mb-0.5">Fleet Integrity</div>
+                <div class="flex items-center justify-start gap-0 lg:gap-2 px-0 lg:px-2">
+                    @for (i of [].constructor(lives()); track i) {
+                        <span class="text-[#E04F5F] text-base lg:text-2xl">♥</span>
+                    }
+                </div>
+            </div>
+            <!-- Puzzle -->
+            <div class="w-[98%] max-w-sm m-0 lg:m-4">
+                <app-puzzle (solved)="onPuzzleSolved()" (failed)="onPuzzleFailed()" />
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div class="w-full lg:w-[70%] flex flex-col order-1 lg:order-2">
+            <!-- Radio Panel -->
+            <div class="p-0 lg:p-4 border-b border-[#1A2535]">
+                <app-intelligence />
+            </div>
+            <!-- Main Game Area -->
+            <div class="flex-1 relative">
+                <canvas #canvas class="w-full h-full"></canvas>
+                @if (showBriefing()) {
+                    <app-mission-briefing-overlay (briefingComplete)="onBriefingComplete()" />
+                }
+            </div>
+        </div>
+        
+        @if (isVictory()) {
+            <div class="absolute inset-0 flex items-center justify-center bg-black/90 p-4 z-50">
+                <app-victory (playAgain)="resetGame()" />
+            </div>
+        } @else if (gameOverMessage()) {
+            <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 text-white p-4 z-50">
+                <p class="text-4xl text-center mb-8">{{ gameOverMessage() }}</p>
+                <button (click)="resetGame()" class="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest rounded-lg hover:bg-gray-200 transition-colors cursor-pointer">
+                    PLAY AGAIN
+                </button>
+            </div>
+        }
+    </div>

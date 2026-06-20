@@ -1,0 +1,22 @@
+<div class="bg-[rgba(0,0,0,0.25)] border border-[rgba(255,255,255,0.08)] p-1 lg:p-3 rounded-lg w-full h-[80px] lg:h-[120px] font-sans flex flex-col justify-between">
+      <div class="flex justify-between items-center text-[8px] lg:text-[10px] uppercase tracking-widest text-[#64748b]">
+        <div class="flex items-center gap-1 lg:gap-2">
+            <span class="text-[10px] lg:text-[12px]">📡</span>
+            <span>Radio Channel</span>
+        </div>
+        <div class="flex items-center gap-1.5 ">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span>Signal Active</span>
+        </div>
+      </div>
+      
+      @if (service.activeMessage(); as msg) {
+        <div class="flex flex-col">
+          <h3 class="text-[10px] lg:text-[12px] font-bold tracking-[2px] uppercase text-[#00FF88]">{{ msg.speaker }}</h3>
+          <p class="text-[12px] lg:text-[16px] text-[#F5F7FA] font-medium leading-relaxed">{{ displayedText() }}</p>
+        </div>
+      }
+    </div>
